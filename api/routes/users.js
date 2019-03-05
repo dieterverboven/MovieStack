@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-const Food = require('../models/food');
+const User = require('../models/user');
 
-//get all drinks
+//get all users
 router.get('/', (req, res, next)=> {
-    Food.find()
+    User.find()
     .exec()
     .then(docs => {
         console.log(docs);
@@ -20,10 +20,10 @@ router.get('/', (req, res, next)=> {
     });
 });
 
-// get drink by id
-router.get('/:foodId', (req, res, next)=> {
+// get user by id
+router.get('/:userId', (req, res, next)=> {
     const id = req.params.foodId;
-    Food.findById(id)
+    User.findById(id)
     .exec()
     .then(doc => {
         console.log(doc);
@@ -38,13 +38,14 @@ router.get('/:foodId', (req, res, next)=> {
 });
 
 router.post('/', (req, res, next)=> {
-    const food = new Food({
+    const user = new User({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price,
-        size: req.body.size
+        role: req.body.role,
+        email: req.body.email,
+        password: req.body.password
     });
-    food
+    user
     .save()
     .then(result => {
         console.log(result);
@@ -52,13 +53,13 @@ router.post('/', (req, res, next)=> {
     .catch(err => console.log(err));
     res.status(201).json({
         message: 'Klaar',
-        aangemaaktFood: food
+        createdUser: user
     })
 });
 
-router.delete('/:foodId', (req, res, next)=> {
-    const id = req.params.foodId;
-    Food.remove({_id: id})
+router.delete('/:userId', (req, res, next)=> {
+    const id = req.params.userId;
+    User.remove({_id: id})
     .exec()
     .then(result => {
         res.status(200).json(result);
@@ -72,7 +73,7 @@ router.delete('/:foodId', (req, res, next)=> {
 });
 
 router.delete('/', (req, res, next)=> {
-    Food.remove({})
+    User.remove({})
     .exec()
     .then(result => {
         res.status(200).json(result);
@@ -85,8 +86,8 @@ router.delete('/', (req, res, next)=> {
     });
 });
 
-router.patch('/:foodId', (req, res, next)=>{
-    const id = req.params.foodId;
+router.patch('/:userId', (req, res, next)=>{
+    const id = req.params.userId;
     const updateOps = {};
 
     console.log(req.body);
@@ -97,7 +98,7 @@ router.patch('/:foodId', (req, res, next)=>{
     }
     console.log(updateOps);    
 
-    Food.update({_id: id}, { $set: updateOps})
+    User.update({_id: id}, { $set: updateOps})
     .exec()
     .then(result =>{
         console.log(result);
@@ -110,6 +111,26 @@ router.patch('/:foodId', (req, res, next)=>{
         });
     });
 
+});
+
+router.post('/login', (req, res, next)=> {
+        console.log(req.body);
+        User.findOne({email: req.body.email, passwoord: req.body.passwoord})
+        .exec()
+        .then(docs => {
+            console.log(docs);
+            res.status(200).json(docs);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        });
+        res.status(401).json({
+            'reason':'unauthorized'
+        });
+    
 });
 
 module.exports = router;
