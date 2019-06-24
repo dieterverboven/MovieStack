@@ -10,7 +10,7 @@ app.use(cors());
 const drinkRoutes = require('./api/routes/drinks');
 const foodRoutes = require('./api/routes/food');
 
-mongoose.connect('mongodb://admin:admin@snacks-shard-00-00-hjl6m.mongodb.net:27017,snacks-shard-00-01-hjl6m.mongodb.net:27017,snacks-shard-00-02-hjl6m.mongodb.net:27017/test?ssl=true&replicaSet=Snacks-shard-0&authSource=admin&retryWrites=true');
+mongoose.connect('mongodb+srv://admin:admin@snacks-hjl6m.mongodb.net/test?retryWrites=true&w=majority');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
