@@ -17,10 +17,12 @@ app.use(bodyParser.json());
 app.use('/Drinks', drinkRoutes);
 app.use('/Food', foodRoutes);
 
+const port = process.env.PORT || 3000;
+
 app.get('/', (req, res)=> {
     res.send('Hello World');
  });
  
- app.listen(3000, ()=>{
+ app.listen(port, host, function() {
      console.log("Server is running");
  });
