@@ -23,6 +23,6 @@ app.get('/', (req, res)=> {
     res.send('Hello World');
  });
  
- app.listen(port, host, function() {
+ app.listen(port, function() {
      console.log("Server is running");
  });
