@@ -11,7 +11,7 @@
     "body-parser": "*",
     "cors": "^2.8.5",
     "express": "*",
-    "mongoose": "^5.4.12"
+    "mongoose": "^5.7.5"
   },
   "author": "Dieter Verboven",
   "license": "ISC"
